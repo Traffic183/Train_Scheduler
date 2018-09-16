@@ -1,4 +1,4 @@
-var config = {
+const config = {
   apiKey: "AIzaSyBsoiUwyDFR0QMfS_jwtZ1_PMq154L7r6Y",
   authDomain: "clickcountdown-eb841.firebaseapp.com",
   databaseURL: "https://clickcountdown-eb841.firebaseio.com",
@@ -8,16 +8,16 @@ var config = {
 };
 firebase.initializeApp(config);
 
-var trainData = firebase.database();
+let trainData = firebase.database();
 
 $("#trainBtn").on("click", function () {
 
-  var trainName = $("#trainNameInput").val().trim();
-  var destination = $("#destinationInput").val().trim();
-  var firstTrain = moment($("#firstTrainTimeInput").val().trim(), "HH:mm").subtract(10, "years").format("x");
-  var frequency = $("#frequencyInput").val().trim();
+  let trainName = $("#trainNameInput").val().trim();
+  let destination = $("#destinationInput").val().trim();
+  let firstTrain = moment($("#firstTrainTimeInput").val().trim(), "HH:mm").subtract(10, "years").format("x");
+  let frequency = $("#frequencyInput").val().trim();
 
-  var newTrain = {
+  let newTrain = {
     name: trainName,
     destination: destination,
     firstTrain: firstTrain,
@@ -39,14 +39,14 @@ $("#trainBtn").on("click", function () {
 
 trainData.ref().on("child_added", function (snapshot) {
 
-  var name = snapshot.val().name;
-  var destination = snapshot.val().destination;
-  var frequency = snapshot.val().frequency;
-  var firstTrain = snapshot.val().firstTrain;
+  let name = snapshot.val().name;
+  let destination = snapshot.val().destination;
+  let frequency = snapshot.val().frequency;
+  let firstTrain = snapshot.val().firstTrain;
 
-  var remainder = moment().diff(moment.unix(firstTrain), "minutes") % frequency;
-  var minutes = frequency - remainder;
-  var arrival = moment().add(minutes, "m").format("hh:mm A");
+  let remainder = moment().diff(moment.unix(firstTrain), "minutes") % frequency;
+  let minutes = frequency - remainder;
+  let arrival = moment().add(minutes, "m").format("hh:mm A");
 
   $("#trainTable > tbody").append("<tr><td>" + name + "</td><td>" + destination + "</td><td>" + frequency + "</td><td>" + arrival + "</td><td>" + minutes + "</td></tr>");
 });
