@@ -7,10 +7,9 @@ const config = {
   messagingSenderId: "769058968116"
 };
 firebase.initializeApp(config);
-
 let trainData = firebase.database();
 
-$("#trainBtn").on("click", function () {
+$("#trainBtn").on("click", () => {
 
   let trainName = $("#trainNameInput").val().trim();
   let destination = $("#destinationInput").val().trim();
@@ -37,16 +36,15 @@ $("#trainBtn").on("click", function () {
 
 });
 
-trainData.ref().on("child_added", function (snapshot) {
-
+trainData.ref().on("child_added", (snapshot) => {
   let name = snapshot.val().name;
   let destination = snapshot.val().destination;
   let frequency = snapshot.val().frequency;
   let firstTrain = snapshot.val().firstTrain;
-
+  
   let remainder = moment().diff(moment.unix(firstTrain), "minutes") % frequency;
   let minutes = frequency - remainder;
   let arrival = moment().add(minutes, "m").format("hh:mm A");
-
+ 
   $("#trainTable > tbody").append("<tr><td>" + name + "</td><td>" + destination + "</td><td>" + frequency + "</td><td>" + arrival + "</td><td>" + minutes + "</td></tr>");
 });
